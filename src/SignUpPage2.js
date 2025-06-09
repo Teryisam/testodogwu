@@ -59,40 +59,107 @@ export default function SignUpPage2() {
   const [errorMessage, setErrorMessage] = React.useState("");
   // console.log(errorMessage);
 
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   if (!agreed) {
+  //     toast.error("Please accept the Policy to move on.");
+  //     } else {
+  //     if (customer.acctType) {
+  //       if (customer.password === customer.confirmPassword) {
+  //         // axios.post("http://localhost:3030/api/items", customer);
+  //         // axios.post("http://localhost:4040/users/", customer)
+  //         await axios.post(`${baseURL}`, customer)
+  //           .then((response) => {
+  //             // console.log(response);
+  //             if (response.stack) {
+  //               toast.error(response.message);
+  //               // console.log(response.message);
+  //             } else {
+  //               localStorage.setItem("customer", JSON.stringify(response.data));
+  //               window.location.href = "/userview2";
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             toast.error(error);
+  //             // console.log(error);
+  //           });
+  //       } else {
+  //         setErrorMessage("Password does not match");
+  //         toast.error(errorMessage);
+  //       }
+  //     } else {
+  //       setErrorMessage("Please select account type");
+  //       toast.error(errorMessage);
+  //     }
+  //   }
+  // }
+
   async function handleSubmit(event) {
-    event.preventDefault();
-    if (!agreed) {
-      toast.error("Please accept the Policy to move on.");
-      } else {
-      if (customer.acctType) {
-        if (customer.password === customer.confirmPassword) {
-          // axios.post("http://localhost:3030/api/items", customer);
-          // axios.post("http://localhost:4040/users/", customer)
-          await axios.post(`${baseURL}`, customer)
-            .then((response) => {
-              // console.log(response);
-              if (response.stack) {
-                toast.error(response.message);
-                // console.log(response.message);
-              } else {
-                localStorage.setItem("customer", JSON.stringify(response.data));
-                window.location.href = "/userview2";
-              }
-            })
-            .catch((error) => {
-              toast.error(error);
-              // console.log(error);
-            });
-        } else {
-          setErrorMessage("Password does not match");
-          toast.error(errorMessage);
-        }
-      } else {
-        setErrorMessage("Please select account type");
-        toast.error(errorMessage);
-      }
-    }
+  event.preventDefault();
+
+  if (!agreed) {
+    setError("Please accept the Policy to move on.");
+    toast.error("Please accept the Policy to move on.");
+    return;
   }
+
+  if (!customer.acctType) {
+    setError("Please select account type");
+    toast.error("Please select account type");
+    return;
+  }
+
+  if (!customer.email) {
+    setError("Please enter your email address");
+    toast.error("Please enter your email address");
+    return;
+  }
+
+  if (!customer.password) {
+    setError("Please enter your password");
+    toast.error("Please enter your password");
+    return;
+  }
+
+  if (!customer.confirmPassword) {
+    setError("Please confirm your password");
+    toast.error("Please confirm your password");
+    return;
+  }
+
+  if (customer.password !== customer.confirmPassword) {
+    setError("Passwords do not match");
+    toast.error("Passwords do not match");
+    return;
+  }
+
+  try {
+    const response = await axios.post(`${baseURL}`, customer);
+
+    if (response.data?.stack || response.data?.error) {
+      const message = response.data?.message || "An error occurred";
+      setError(message);
+      toast.error(message);
+    } else {
+      setError(""); // Clear any existing error
+      toast.success("Account created successfully!");
+
+      localStorage.setItem("customer", JSON.stringify(response.data));
+
+      setTimeout(() => {
+        window.location.href = "/userview2";
+      }, 1500);
+    }
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Signup failed. Please try again.";
+    setError(message);
+    toast.error(message);
+  }
+}
+
 
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
