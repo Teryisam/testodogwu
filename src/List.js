@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import baseURL from "./config";
 
 export default function List() {
   const [customers, setCustomers] = React.useState([]);
