@@ -13,7 +13,8 @@ export default function List() {
       setLoading(true);
       try {
         // await axios.get("http://localhost:3030/api/items")
-        await axios.get("http://localhost:4040/users/")
+        // await axios.get("http://localhost:4040/users/")
+        await axios.get(`${baseURL}`)
           .then((response) => {
             setCustomers(response.data);
             // console.log(customers);
