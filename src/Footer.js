@@ -5,7 +5,7 @@ export default function Footer() {
 
     return (
         <footer className="footer">
-            <small className="inside bg-gray-800">&copy; New Team {currentYear}</small>
+            <small className="inside bg-gray-800">&copy; Teryisam Enterprises {currentYear}</small>
             {/* <h4 className="header--project"></h4> */}
         </footer>
     );
