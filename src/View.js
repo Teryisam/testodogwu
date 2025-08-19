@@ -3,6 +3,7 @@ import App from "./App";
 import './index.css';
 import SignUpPage2 from "./SignUpPage2";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FaroRoutes } from "@grafana/faro-react";
 import UserView from "./UserView";
 import toast, { Toaster } from "react-hot-toast";
 import Dashboard from "./Dashboard";
@@ -16,7 +17,7 @@ export default function View() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
+        <FaroRoutes>
           <Route path="/" element={<App />} />
           <Route path="/signuppage2" element={<SignUpPage2 />} />
           <Route path="/userview" element={<UserView />} />
@@ -27,7 +28,7 @@ export default function View() {
           <Route path="/update/:_id" element={<Update />} /> */}
           <Route path="/edit/:id" element={<Edit />} />
           <Route path="/update/:id" element={<Update />} />
-        </Routes>
+        </FaroRoutes>
       </BrowserRouter>
 
       <Toaster />
